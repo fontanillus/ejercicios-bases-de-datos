@@ -7,22 +7,8 @@
     <title>SQL Lab | Repositorios de MySQL</title>
     <!-- El CDN permite usar este archivo sin compilacion; requiere conexion. -->
     <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
-    <style type="text/tailwindcss">
-      @theme {
-        --font-sans: "Segoe UI", system-ui, sans-serif;
-      }
-      @layer base {
-        button, select { cursor: pointer; }
-        :focus-visible { outline: 2px solid #34d399; outline-offset: 4px; }
-      }
-      @layer components {
-        .panel { @apply rounded-2xl border border-slate-800 bg-slate-900/60; }
-        .filter { @apply rounded-lg px-4 py-2 text-sm font-medium transition hover:bg-slate-800; }
-        .filter[aria-pressed="true"] { @apply bg-emerald-400 text-slate-950 hover:bg-emerald-300; }
-      }
-    </style>
   </head>
-  <body class="min-h-screen bg-slate-950 font-sans text-slate-200 antialiased">
+  <body class="min-h-screen bg-slate-950 font-['Segoe_UI',system-ui,sans-serif] text-slate-200 antialiased [&_button]:cursor-pointer [&_select]:cursor-pointer [&_:focus-visible]:outline-2 [&_:focus-visible]:outline-emerald-400 [&_:focus-visible]:outline-offset-4">
     <header class="border-b border-slate-800">
       <div class="mx-auto flex max-w-7xl flex-wrap items-center justify-between gap-4 px-5 py-5 sm:px-8">
         <a href="#" class="flex items-center gap-3" aria-label="SQL Lab, inicio">
@@ -44,7 +30,7 @@
           <p class="mt-5 max-w-lg leading-relaxed text-slate-400">Un acceso directo a los repositorios de ejercicios de MySQL publicados en GitHub. Busca, filtra y abre el proyecto que necesitas.</p>
           <a href="#repositorios" class="mt-6 inline-flex items-center gap-3 rounded-xl bg-emerald-400 px-5 py-3 text-sm font-bold text-slate-950 transition hover:bg-emerald-300">Explorar repositorios <span aria-hidden="true">↓</span></a>
         </div>
-        <div class="panel p-6 sm:p-8">
+        <div class="rounded-2xl border border-slate-800 bg-slate-900/60 p-6 sm:p-8">
           <span class="font-mono text-sm text-emerald-400" aria-hidden="true">&lt;/&gt; GitHub + MySQL</span>
           <h2 class="mt-5 text-xl font-semibold text-white">El código vive en GitHub</h2>
           <p class="mt-3 text-sm leading-relaxed text-slate-400">Este dashboard organiza los enlaces. Los archivos SQL, los enunciados y la documentación están en cada repositorio.</p>
@@ -62,12 +48,12 @@
           </div>
           <span class="rounded-full border border-slate-800 px-3 py-1 text-xs text-slate-400">Colección en crecimiento</span>
         </div>
-        <div class="panel mb-6 flex flex-col gap-4 p-4 xl:flex-row xl:items-center xl:justify-between">
+        <div class="rounded-2xl border border-slate-800 bg-slate-900/60 mb-6 flex flex-col gap-4 p-4 xl:flex-row xl:items-center xl:justify-between">
           <div class="flex flex-wrap gap-1" role="group" aria-label="Filtrar por nivel" id="filters">
-            <button type="button" class="filter" data-level="Todos" aria-pressed="true">Todos</button>
-            <button type="button" class="filter" data-level="Básico" aria-pressed="false">Básico</button>
-            <button type="button" class="filter" data-level="Intermedio" aria-pressed="false">Intermedio</button>
-            <button type="button" class="filter" data-level="Avanzado" aria-pressed="false">Avanzado</button>
+            <button type="button" class="cursor-pointer rounded-lg px-4 py-2 text-sm font-medium transition hover:bg-slate-800 aria-pressed:bg-emerald-400 aria-pressed:text-slate-950 aria-pressed:hover:bg-emerald-300" data-level="Todos" aria-pressed="true">Todos</button>
+            <button type="button" class="cursor-pointer rounded-lg px-4 py-2 text-sm font-medium transition hover:bg-slate-800 aria-pressed:bg-emerald-400 aria-pressed:text-slate-950 aria-pressed:hover:bg-emerald-300" data-level="Básico" aria-pressed="false">Básico</button>
+            <button type="button" class="cursor-pointer rounded-lg px-4 py-2 text-sm font-medium transition hover:bg-slate-800 aria-pressed:bg-emerald-400 aria-pressed:text-slate-950 aria-pressed:hover:bg-emerald-300" data-level="Intermedio" aria-pressed="false">Intermedio</button>
+            <button type="button" class="cursor-pointer rounded-lg px-4 py-2 text-sm font-medium transition hover:bg-slate-800 aria-pressed:bg-emerald-400 aria-pressed:text-slate-950 aria-pressed:hover:bg-emerald-300" data-level="Avanzado" aria-pressed="false">Avanzado</button>
           </div>
           <div class="flex flex-col gap-3 sm:flex-row">
             <label class="sr-only" for="search">Buscar repositorios</label>
@@ -81,7 +67,7 @@
         </div>
         <p id="results" class="mb-4 text-sm text-slate-500" role="status" aria-live="polite"></p>
         <div id="cards" class="grid gap-5 md:grid-cols-2 xl:grid-cols-3"></div>
-        <div id="empty" class="panel hidden px-6 py-12 text-center">
+        <div id="empty" class="rounded-2xl border border-slate-800 bg-slate-900/60 hidden px-6 py-12 text-center">
           <h3 id="empty-title" class="text-lg font-semibold text-white">Aún no hay repositorios</h3>
           <p id="empty-description" class="mt-2 text-sm text-slate-400">Los enlaces a GitHub aparecerán aquí cuando los añadamos a la colección.</p>
           <button id="reset" type="button" class="mt-5 rounded-lg bg-emerald-400 px-4 py-2 text-sm font-bold text-slate-950 hover:bg-emerald-300">Limpiar filtros</button>
@@ -94,7 +80,7 @@
     </footer>
 
     <template id="card-template">
-      <article class="panel flex flex-col p-6 transition hover:border-slate-600">
+      <article class="rounded-2xl border border-slate-800 bg-slate-900/60 flex flex-col p-6 transition hover:border-slate-600">
         <div class="mb-5 flex items-center justify-between">
           <span data-field="number" class="font-mono text-sm text-slate-500"></span>
           <span data-field="level" class="rounded-full px-2.5 py-1 text-xs font-medium"></span>
@@ -130,6 +116,13 @@
           description: "Cuaderno de bases de datos sobre normalización y buenas prácticas.",
           tags: ["Bases de datos", "Normalización", "Buenas prácticas"],
           url: "https://fontanillus.github.io/normalizacion-buenas-practicas/"
+        },
+        {
+          title: "Entidades débiles e ISA",
+          level: "Intermedio",
+          description: "Entidades débiles y jerarquías ISA en el modelo entidad-relación.",
+          tags: ["Bases de datos", "Modelo E/R", "Entidades débiles", "ISA"],
+          url: "https://fontanillus.github.io/entidades-debiles-isa/"
         }
       ];
       const levelStyles = {
@@ -178,7 +171,7 @@
 
       for (const [level, label] of [["Todos", "Repositorios disponibles"], ["Básico", "Nivel básico"], ["Intermedio", "Nivel intermedio"], ["Avanzado", "Nivel avanzado"]]) {
         const stat = document.createElement("div");
-        stat.className = "panel p-5";
+        stat.className = "rounded-2xl border border-slate-800 bg-slate-900/60 p-5";
         const count = document.createElement("p");
         count.className = "text-3xl font-semibold tracking-tight text-white";
         count.textContent = String(repositories.filter((repository) => level === "Todos" || repository.level === level).length).padStart(2, "0");
