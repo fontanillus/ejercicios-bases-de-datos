@@ -1,202 +1,578 @@
 <!doctype html>
 <html lang="es">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta name="color-scheme" content="dark" />
-    <title>SQL Lab | Repositorios de MySQL</title>
-    <!-- El CDN permite usar este archivo sin compilacion; requiere conexion. -->
-    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
-  </head>
-  <body class="min-h-screen bg-slate-950 font-['Segoe_UI',system-ui,sans-serif] text-slate-200 antialiased [&_button]:cursor-pointer [&_select]:cursor-pointer [&_:focus-visible]:outline-2 [&_:focus-visible]:outline-emerald-400 [&_:focus-visible]:outline-offset-4">
-    <header class="border-b border-slate-800">
-      <div class="mx-auto flex max-w-7xl flex-wrap items-center justify-between gap-4 px-5 py-5 sm:px-8">
-        <a href="#" class="flex items-center gap-3" aria-label="SQL Lab, inicio">
-          <span class="grid size-10 place-items-center rounded-xl bg-emerald-400 font-mono text-lg font-bold text-slate-950" aria-hidden="true">&gt;_</span>
-          <span class="text-xl font-bold tracking-tight text-white">SQL<span class="text-emerald-400">Lab</span></span>
-        </a>
-        <nav aria-label="Principal" class="flex items-center gap-5 text-sm">
-          <a href="#repositorios" class="text-emerald-400 hover:text-emerald-200">Repositorios</a>
-          <a href="https://dev.mysql.com/doc/refman/8.4/en/" target="_blank" rel="noopener noreferrer" class="text-slate-400 hover:text-white">Documentación ↗</a>
-        </nav>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Diseño inicial de la base de datos para la representación de Els Pastorets 2026.">
+  <title>Modelo de datos | Els Pastorets 2026</title>
+  <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+</head>
+<body class="m-0 bg-[#f5f4ee] font-[Segoe_UI,Arial,sans-serif] text-base leading-[1.65] text-[#202c29]">
+  <header class="bg-[#245c49] px-5 py-9 text-[#fffefa] md:px-6 md:py-8">
+    <div class="mx-auto grid max-w-[1080px] grid-cols-1 items-center gap-6 md:grid-cols-[minmax(0,1fr)_210px] md:gap-8">
+      <div class="max-w-[680px]">
+        <p class="mb-3 text-[0.78rem] font-bold tracking-[0.14em] text-[#d8c49f] uppercase">Proyecto de bases de datos · Fase inicial</p>
+        <h1 class="mb-3 max-w-[760px] text-[2.2rem] leading-[1.12] font-bold md:text-5xl lg:text-[3.6rem]">Els Pastorets 2026</h1>
+        <p class="mb-3 text-[0.95rem] font-semibold text-[#d8c49f]">Autora: Yolanda Fontanillas</p>
+        <p class="max-w-[700px] text-[1.08rem] text-[#e2ebe5]">Diseño de una base de datos relacional para organizar las personas participantes, los personajes, los técnicos, los ensayos, las funciones y el reparto de cada representación.</p>
       </div>
-    </header>
+      <figure class="m-0 w-full max-w-[210px] justify-self-center text-center">
+        <img class="mx-auto block h-auto w-full rounded-xl border border-white/30 shadow-[0_18px_48px_rgb(0_0_0/0.28)]" src="img/pastorets.jpg" alt="Cartel de Els Pastorets: un ángel coloca una estrella mientras pastores y demonios contemplan la escena." width="1536" height="2048">
+        <figcaption class="mt-2.5 text-[0.86rem] text-[#d8c49f]">Cartel de este año · Diseño propio</figcaption>
+      </figure>
+    </div>
+  </header>
 
-    <main class="mx-auto max-w-7xl space-y-9 px-5 py-9 sm:px-8 sm:py-12">
-      <section class="grid items-center gap-8 lg:grid-cols-[1.4fr_1fr]" aria-labelledby="title">
-        <div>
-          <p class="mb-4 text-xs font-semibold uppercase tracking-[0.22em] text-emerald-400">Tu colección de MySQL</p>
-          <h1 id="title" class="text-4xl font-bold leading-tight tracking-tight text-white sm:text-5xl">Tus repositorios.<br /><span class="text-slate-400">En un solo lugar.</span></h1>
-          <p class="mt-5 max-w-lg leading-relaxed text-slate-400">Un acceso directo a los repositorios de ejercicios de MySQL publicados en GitHub. Busca, filtra y abre el proyecto que necesitas.</p>
-          <a href="#repositorios" class="mt-6 inline-flex items-center gap-3 rounded-xl bg-emerald-400 px-5 py-3 text-sm font-bold text-slate-950 transition hover:bg-emerald-300">Explorar repositorios <span aria-hidden="true">↓</span></a>
+  <main class="mx-auto w-[calc(100%-28px)] max-w-[1080px] min-w-0 pt-8 pb-[72px] md:w-[calc(100%-40px)] md:pt-11">
+    <details class="group mb-3 min-w-0 rounded-[14px] border border-[#dce1d8] bg-[#fffefa] shadow-[0_16px_40px_rgb(34_49_41/0.08)] [&>:not(summary)]:mx-4 [&>:last-child]:mb-4 [&>summary+*]:mt-5 md:[&>:not(summary)]:mx-6 md:[&>:last-child]:mb-6">
+      <summary class="flex cursor-pointer list-none items-start gap-2.5 rounded-xl p-4 focus-visible:outline-3 focus-visible:outline-offset-3 focus-visible:outline-[#bc8540] md:items-baseline md:gap-3.5 md:px-[22px] md:py-[18px] [&::-webkit-details-marker]:hidden">
+        <span aria-hidden="true" class="text-[1.3rem] leading-none font-bold text-[#bc8540] group-open:hidden">+</span>
+        <span aria-hidden="true" class="hidden text-[1.3rem] leading-none font-bold text-[#bc8540] group-open:inline">−</span>
+        <span class="min-w-0 text-xl leading-[1.3] font-bold text-[#202c29]" role="heading" aria-level="2">Especificación de requisitos</span>
+        <span class="hidden text-[0.92rem] text-[#64716c] md:block">Información que debe almacenarse y reglas del negocio.</span>
+      </summary>
+      <h3 class="mb-2 text-[1.12rem] font-bold text-[#245c49]">2.1. Requisitos de información (datos a almacenar)</h3>
+      <ul class="mb-6 list-disc space-y-2 pl-6 text-[#64716c]">
+        <li><strong>Participantes:</strong> registrar un identificador único, nombre, primer apellido, segundo apellido y teléfono móvil. Distinguir qué participantes son actores o actrices, técnicos o ambas cosas.</li>
+        <li><strong>Actores, personajes y capacidades:</strong> registrar los personajes de la obra y sus características; identificar qué personajes puede interpretar cada actor o actriz; permitir que un mismo personaje tenga diferentes intérpretes según la representación y que una persona interprete varios personajes.</li>
+        <li><strong>Técnicos y especialidades:</strong> registrar las especialidades técnicas (vestuario, regiduría, luces y sonido); identificar las especialidades que puede desempeñar cada técnico y permitir que una persona tenga varias especialidades.</li>
+        <li><strong>Ensayos y escenas:</strong> registrar la fecha, hora, tipo, lugar y observaciones de cada ensayo; registrar las escenas de la obra, su número, título, descripción y duración estimada; identificar las escenas previstas para cada ensayo.</li>
+        <li><strong>Convocatorias:</strong> registrar qué actores y actrices están convocados a cada ensayo, qué personaje deben preparar y sus estados de asistencia y sustituciones; registrar qué técnicos están convocados y qué especialidad desempeñarán.</li>
+        <li><strong>Representaciones:</strong> registrar la fecha, hora, lugar y observaciones de cada representación; identificar qué actor interpreta cada personaje en cada función, permitiendo varios personajes por actor; y registrar los técnicos y sus especialidades asignadas, como máximo una especialidad técnica por técnico y representación. Una especialidad puede estar cubierta por varios técnicos y una persona puede desempeñar simultáneamente un papel artístico y una función técnica.</li>
+      </ul>
+
+      <h3 class="mb-2 text-[1.12rem] font-bold text-[#245c49]">2.2. Reglas de negocio (restricciones y funcionamiento)</h3>
+      <div class="grid min-w-0 grid-cols-1 gap-4 lg:grid-cols-2">
+        <article class="rounded-xl border border-[#dce1d8] bg-[#fffefa] p-4">
+          <h4 class="mb-2 font-bold text-[#245c49]">Participantes y capacidades</h4>
+          <ol class="list-decimal space-y-2 pl-5 text-[#64716c]">
+            <li>Todo participante debe pertenecer al menos a uno de los subtipos ACTORES_ACTRICES o TECNICOS y puede pertenecer a ambos: la especialización es <strong>total y solapada</strong>. Es una restricción de negocio; las claves foráneas por sí solas no garantizan que cada participante pertenezca a algún subtipo.</li>
+            <li>Los datos personales se almacenan una sola vez en <code class="rounded bg-[#edf0e9] px-[5px] py-0.5 font-mono text-[0.9em] text-[#284c3c]">PARTICIPANTES</code>.</li>
+            <li>Un actor puede interpretar varios personajes y un personaje puede ser interpretado por varios actores a lo largo de la temporada. Relación N:M.</li>
+            <li>Un técnico puede tener varias especialidades registradas como capacidades y una especialidad puede corresponder a varios técnicos. Relación N:M.</li>
+            <li>Solo se puede convocar o asignar a un actor para personajes registrados entre sus capacidades.</li>
+            <li>Solo se puede convocar o asignar a un técnico para especialidades registradas entre sus capacidades.</li>
+          </ol>
+        </article>
+        <article class="rounded-xl border border-[#dce1d8] bg-[#fffefa] p-4">
+          <h4 class="mb-2 font-bold text-[#245c49]">Ensayos y convocatorias</h4>
+          <ol class="list-decimal space-y-2 pl-5 text-[#64716c]" start="7">
+            <li>Cada convocatoria artística identifica obligatoriamente un ensayo, un actor y un personaje.</li>
+            <li>Cada convocatoria técnica identifica un ensayo, un técnico y una especialidad.</li>
+            <li>Cuando un actor convocado no puede asistir a un ensayo, se conserva su convocatoria con estado ausente y puede registrarse un único sustituto autorizado para interpretar ese personaje.</li>
+            <li>Un ensayo puede incluir varias escenas y una escena puede ensayarse en diferentes fechas. Relación N:M.</li>
+            <li>Una misma escena puede repetirse durante un ensayo sin registrar cada repetición.</li>
+            <li>Las convocatorias de ensayos son independientes de los repartos de las representaciones.</li>
+            <li>Los ensayos y las representaciones pueden registrarse antes de completar sus convocatorias o repartos.</li>
+          </ol>
+        </article>
+        <article class="rounded-xl border border-[#dce1d8] bg-[#fffefa] p-4">
+          <h4 class="mb-2 font-bold text-[#245c49]">Representaciones</h4>
+          <ol class="list-decimal space-y-2 pl-5 text-[#64716c]" start="14">
+            <li>Cada personaje tiene un único intérprete por representación; un actor puede interpretar varios personajes en la misma representación.</li>
+            <li>Los repartos artísticos pueden variar entre representaciones.</li>
+            <li>Cada técnico puede desempeñar como máximo una especialidad técnica en una representación, aunque tenga varias registradas como capacidades. Una misma especialidad puede estar cubierta por varios técnicos en esa representación.</li>
+            <li>Una persona puede desempeñar simultáneamente un papel artístico y una función técnica en la misma representación.</li>
+          </ol>
+        </article>
+        <article class="rounded-xl border border-[#dce1d8] bg-[#fffefa] p-4">
+          <h4 class="mb-2 font-bold text-[#245c49]">Integridad y ausencia de duplicidades</h4>
+          <ol class="list-decimal space-y-2 pl-5 text-[#64716c]" start="18">
+            <li>No se duplicarán datos personales, nombres de personajes ni descripciones de especialidades en las tablas de asignación.</li>
+          </ol>
+        </article>
+      </div>
+    </details>
+
+    <details class="group mb-3 min-w-0 rounded-[14px] border border-[#dce1d8] bg-[#fffefa] shadow-[0_16px_40px_rgb(34_49_41/0.08)] [&>:not(summary)]:mx-4 [&>:last-child]:mb-4 [&>summary+*]:mt-5 md:[&>:not(summary)]:mx-6 md:[&>:last-child]:mb-6">
+      <summary class="flex cursor-pointer list-none items-start gap-2.5 rounded-xl p-4 focus-visible:outline-3 focus-visible:outline-offset-3 focus-visible:outline-[#bc8540] md:items-baseline md:gap-3.5 md:px-[22px] md:py-[18px] [&::-webkit-details-marker]:hidden">
+        <span aria-hidden="true" class="text-[1.3rem] leading-none font-bold text-[#bc8540] group-open:hidden">+</span>
+        <span aria-hidden="true" class="hidden text-[1.3rem] leading-none font-bold text-[#bc8540] group-open:inline">−</span>
+        <span class="min-w-0 text-xl leading-[1.3] font-bold text-[#202c29]" role="heading" aria-level="2">Diagrama Entidad-Relación lógico</span>
+        <span class="hidden text-[0.92rem] text-[#64716c] md:block">Personas, personajes, técnicos, ensayos, funciones y reparto.</span>
+      </summary>
+      <section aria-labelledby="modelo-conceptual" class="mb-7 min-w-0">
+        <h3 id="modelo-conceptual" class="mb-2 text-[1.12rem] font-bold text-[#245c49]">Modelo conceptual</h3>
+        <p class="mb-4 text-[#64716c]">Entidades y relaciones originales del modelo documentado. Los rectángulos muestran entidades y sus atributos; los rombos, relaciones; las elipses, atributos propios de las relaciones. Los subtipos heredan los datos de PARTICIPANTES.</p>
+        <div class="min-w-0 overflow-x-auto rounded-[14px] border border-[#dce1d8] bg-[#fffefa] p-3.5 md:p-6" tabindex="0" role="region" aria-label="Diagrama conceptual, desplazable horizontalmente">
+          <figure class='m-0 mb-7'><figcaption class='mb-3 font-bold text-[#245c49]'>Participantes, especialización y capacidades (N:M)</figcaption><svg class='block h-auto w-full min-w-[960px] font-[Segoe_UI,Arial,sans-serif]' viewBox='0 0 1000 680' role='img' aria-labelledby='concepto-capacidades-title concepto-capacidades-desc'><title id='concepto-capacidades-title'>Participantes, especialización y capacidades (N:M)</title><desc id='concepto-capacidades-desc'>Especialización total y solapada. Cada subtipo hereda los atributos del participante. Relaciones de capacidad muchos a muchos.</desc><path d='M500 130 V160 M506 130 V160 M500 200 V225 H180 V250 M500 225 H820 V250' fill='none' stroke='#bc8540' stroke-width='2'/><g transform='translate(355 20)'><rect width='290' height='110' rx='10' fill='#e8f1eb' stroke='#9cafa2' stroke-width='2'/><text x='145' y='25' font-size='16' fill='#245c49' text-anchor='middle'>PARTICIPANTES</text><text x='145' y='49' font-size='13' fill='#245c49' text-anchor='middle'>id_participante · nombre</text><text x='145' y='68' font-size='13' fill='#245c49' text-anchor='middle'>apellido_1 · apellido_2 · movil</text></g><circle cx='503' cy='180' r='20' fill='#fffefa' stroke='#bc8540' stroke-width='2'/><text x='503' y='185' font-size='18' fill='#245c49' text-anchor='middle'>o</text><text x='730' y='180' font-size='16' fill='#245c49' text-anchor='middle'>TOTAL y SOLAPADA</text><text x='730' y='201' font-size='13' fill='#245c49' text-anchor='middle'>Doble línea: total · o: solapada</text><g transform='translate(35 250)'><rect width='290' height='110' rx='10' fill='#e8f1eb' stroke='#9cafa2' stroke-width='2'/><text x='145' y='25' font-size='16' fill='#245c49' text-anchor='middle'>ACTORES_ACTRICES</text><text x='145' y='49' font-size='13' fill='#245c49' text-anchor='middle'>Atributos heredados de PARTICIPANTES</text></g><g transform='translate(675 250)'><rect width='290' height='110' rx='10' fill='#e8f1eb' stroke='#9cafa2' stroke-width='2'/><text x='145' y='25' font-size='16' fill='#245c49' text-anchor='middle'>TECNICOS</text><text x='145' y='49' font-size='13' fill='#245c49' text-anchor='middle'>Atributos heredados de PARTICIPANTES</text></g><text x='180' y='242' font-size='12' fill='#245c49' text-anchor='middle'>1:1 con su participante · 0..1 por subtipo</text><text x='820' y='242' font-size='12' fill='#245c49' text-anchor='middle'>1:1 con su participante · 0..1 por subtipo</text><path d='M180 360 V408 M180 492 V550 M820 360 V408 M820 492 V550' fill='none' stroke='#bc8540' stroke-width='2'/><polygon points='180,408 315,450 180,492 45,450' fill='#f0e9f6' stroke='#aa91ba' stroke-width='2'/><text x='180' y='455' font-size='14' fill='#245c49' text-anchor='middle'>Puede interpretar</text><polygon points='820,408 955,450 820,492 685,450' fill='#f0e9f6' stroke='#aa91ba' stroke-width='2'/><text x='820' y='455' font-size='14' fill='#245c49' text-anchor='middle'>Puede desempeñar</text><text x='200' y='390' font-size='14' fill='#245c49' text-anchor='middle'>0..N</text><text x='200' y='530' font-size='14' fill='#245c49' text-anchor='middle'>0..N</text><text x='840' y='390' font-size='14' fill='#245c49' text-anchor='middle'>0..N</text><text x='840' y='530' font-size='14' fill='#245c49' text-anchor='middle'>0..N</text><g transform='translate(35 550)'><rect width='290' height='110' rx='10' fill='#e8f1eb' stroke='#9cafa2' stroke-width='2'/><text x='145' y='25' font-size='16' fill='#245c49' text-anchor='middle'>PERSONAJES</text><text x='145' y='49' font-size='13' fill='#245c49' text-anchor='middle'>id_personaje · nombre</text><text x='145' y='68' font-size='13' fill='#245c49' text-anchor='middle'>tipo · descripcion</text></g><g transform='translate(675 550)'><rect width='290' height='110' rx='10' fill='#e8f1eb' stroke='#9cafa2' stroke-width='2'/><text x='145' y='25' font-size='16' fill='#245c49' text-anchor='middle'>ESPECIALIDADES</text><text x='145' y='49' font-size='13' fill='#245c49' text-anchor='middle'>id_especialidad · nombre</text><text x='145' y='68' font-size='13' fill='#245c49' text-anchor='middle'>descripcion</text></g></svg></figure><figure class='m-0 mb-7'><figcaption class='mb-3 font-bold text-[#245c49]'>Planificación de escenas (N:M)</figcaption><svg class='block h-auto w-full min-w-[960px] font-[Segoe_UI,Arial,sans-serif]' viewBox='0 0 1000 160' role='img' aria-labelledby='concepto-escenas-title concepto-escenas-desc'><title id='concepto-escenas-title'>Planificación de escenas (N:M)</title><desc id='concepto-escenas-desc'>Un ensayo incluye cero o muchas escenas y una escena puede incluirse en cero o muchos ensayos, sin registrar repeticiones.</desc><path d='M320 75 H365 M635 75 H680' fill='none' stroke='#bc8540' stroke-width='2'/><g transform='translate(30 20)'><rect width='290' height='110' rx='10' fill='#e8f1eb' stroke='#9cafa2' stroke-width='2'/><text x='145' y='25' font-size='16' fill='#245c49' text-anchor='middle'>ENSAYOS</text><text x='145' y='49' font-size='13' fill='#245c49' text-anchor='middle'>id_ensayo · fecha · hora</text><text x='145' y='68' font-size='13' fill='#245c49' text-anchor='middle'>tipo · lugar · observaciones</text></g><g transform='translate(680 20)'><rect width='290' height='110' rx='10' fill='#e8f1eb' stroke='#9cafa2' stroke-width='2'/><text x='145' y='25' font-size='16' fill='#245c49' text-anchor='middle'>ESCENAS</text><text x='145' y='49' font-size='13' fill='#245c49' text-anchor='middle'>id_escena · numero_escena</text><text x='145' y='68' font-size='13' fill='#245c49' text-anchor='middle'>titulo · descripcion</text><text x='145' y='87' font-size='13' fill='#245c49' text-anchor='middle'>duracion_estimada</text></g><polygon points='500,33 635,75 500,117 365,75' fill='#f0e9f6' stroke='#aa91ba' stroke-width='2'/><text x='500' y='80' font-size='14' fill='#245c49' text-anchor='middle'>Incluye</text><text x='341' y='60' font-size='12' fill='#245c49' text-anchor='middle'>0..N</text><text x='657' y='60' font-size='12' fill='#245c49' text-anchor='middle'>0..N</text></svg></figure><figure class='m-0 mb-7'><figcaption class='mb-3 font-bold text-[#245c49]'>Convocatoria artística (N:N:N)</figcaption><svg class='block h-auto w-full min-w-[960px] font-[Segoe_UI,Arial,sans-serif]' viewBox='0 0 1000 345' role='img' aria-labelledby='concepto-convoca-actor-title concepto-convoca-actor-desc'><title id='concepto-convoca-actor-title'>Convocatoria artística (N:N:N)</title><desc id='concepto-convoca-actor-desc'>Cada convocatoria vincula exactamente un actor, un personaje y un ensayo. El sustituto opcional es otro actor autorizado para el mismo personaje.</desc><path d='M165 130 V205 H365 M500 130 V163 M835 130 V205 H635' fill='none' stroke='#bc8540' stroke-width='2'/><g transform='translate(20 20)'><rect width='290' height='110' rx='10' fill='#e8f1eb' stroke='#9cafa2' stroke-width='2'/><text x='145' y='25' font-size='16' fill='#245c49' text-anchor='middle'>ACTORES_ACTRICES</text><text x='145' y='49' font-size='13' fill='#245c49' text-anchor='middle'>Atributos heredados de PARTICIPANTES</text></g><g transform='translate(355 20)'><rect width='290' height='110' rx='10' fill='#e8f1eb' stroke='#9cafa2' stroke-width='2'/><text x='145' y='25' font-size='16' fill='#245c49' text-anchor='middle'>PERSONAJES</text><text x='145' y='49' font-size='13' fill='#245c49' text-anchor='middle'>id_personaje · nombre</text><text x='145' y='68' font-size='13' fill='#245c49' text-anchor='middle'>tipo · descripcion</text></g><g transform='translate(690 20)'><rect width='290' height='110' rx='10' fill='#e8f1eb' stroke='#9cafa2' stroke-width='2'/><text x='145' y='25' font-size='16' fill='#245c49' text-anchor='middle'>ENSAYOS</text><text x='145' y='49' font-size='13' fill='#245c49' text-anchor='middle'>id_ensayo · fecha · hora</text><text x='145' y='68' font-size='13' fill='#245c49' text-anchor='middle'>tipo · lugar · observaciones</text></g><polygon points='500,163 635,205 500,247 365,205' fill='#f0e9f6' stroke='#aa91ba' stroke-width='2'/><text x='500' y='210' font-size='14' fill='#245c49' text-anchor='middle'>Es convocado para</text><text x='195' y='180' font-size='14' fill='#245c49' text-anchor='middle'>N</text><text x='530' y='152' font-size='14' fill='#245c49' text-anchor='middle'>N</text><text x='805' y='180' font-size='14' fill='#245c49' text-anchor='middle'>N</text><path d='M500 247 V275' fill='none' stroke='#bc8540' stroke-width='2'/><ellipse cx='500' cy='297' rx='190' ry='22' fill='#fffefa' stroke='#9cafa2'/><text x='500' y='302' font-size='13' fill='#245c49' text-anchor='middle'>observaciones · estado_asistencia</text><path d='M400 218 H335 V255 H165 V130' fill='none' stroke='#bc8540' stroke-width='2'/><text x='170' y='278' font-size='12' fill='#245c49' text-anchor='middle'>Sustituto: 0..1 por convocatoria</text><text x='170' y='299' font-size='12' fill='#245c49' text-anchor='middle'>Actor: 0..N sustituciones</text></svg></figure><figure class='m-0 mb-7'><figcaption class='mb-3 font-bold text-[#245c49]'>Convocatoria técnica (N:N:N)</figcaption><svg class='block h-auto w-full min-w-[960px] font-[Segoe_UI,Arial,sans-serif]' viewBox='0 0 1000 345' role='img' aria-labelledby='concepto-convoca-tecnico-title concepto-convoca-tecnico-desc'><title id='concepto-convoca-tecnico-title'>Convocatoria técnica (N:N:N)</title><desc id='concepto-convoca-tecnico-desc'>Cada convocatoria vincula exactamente un técnico, una especialidad y un ensayo.</desc><path d='M165 130 V205 H365 M500 130 V163 M835 130 V205 H635' fill='none' stroke='#bc8540' stroke-width='2'/><g transform='translate(20 20)'><rect width='290' height='110' rx='10' fill='#e8f1eb' stroke='#9cafa2' stroke-width='2'/><text x='145' y='25' font-size='16' fill='#245c49' text-anchor='middle'>TECNICOS</text><text x='145' y='49' font-size='13' fill='#245c49' text-anchor='middle'>Atributos heredados de PARTICIPANTES</text></g><g transform='translate(355 20)'><rect width='290' height='110' rx='10' fill='#e8f1eb' stroke='#9cafa2' stroke-width='2'/><text x='145' y='25' font-size='16' fill='#245c49' text-anchor='middle'>ESPECIALIDADES</text><text x='145' y='49' font-size='13' fill='#245c49' text-anchor='middle'>id_especialidad · nombre</text><text x='145' y='68' font-size='13' fill='#245c49' text-anchor='middle'>descripcion</text></g><g transform='translate(690 20)'><rect width='290' height='110' rx='10' fill='#e8f1eb' stroke='#9cafa2' stroke-width='2'/><text x='145' y='25' font-size='16' fill='#245c49' text-anchor='middle'>ENSAYOS</text><text x='145' y='49' font-size='13' fill='#245c49' text-anchor='middle'>id_ensayo · fecha · hora</text><text x='145' y='68' font-size='13' fill='#245c49' text-anchor='middle'>tipo · lugar · observaciones</text></g><polygon points='500,163 635,205 500,247 365,205' fill='#f0e9f6' stroke='#aa91ba' stroke-width='2'/><text x='500' y='210' font-size='14' fill='#245c49' text-anchor='middle'>Es convocado para</text><text x='195' y='180' font-size='14' fill='#245c49' text-anchor='middle'>N</text><text x='530' y='152' font-size='14' fill='#245c49' text-anchor='middle'>N</text><text x='805' y='180' font-size='14' fill='#245c49' text-anchor='middle'>N</text><path d='M500 247 V275' fill='none' stroke='#bc8540' stroke-width='2'/><ellipse cx='500' cy='297' rx='190' ry='22' fill='#fffefa' stroke='#9cafa2'/><text x='500' y='302' font-size='13' fill='#245c49' text-anchor='middle'>observaciones</text></svg></figure><figure class='m-0 mb-7'><figcaption class='mb-3 font-bold text-[#245c49]'>Reparto artístico (1:N:N)</figcaption><svg class='block h-auto w-full min-w-[960px] font-[Segoe_UI,Arial,sans-serif]' viewBox='0 0 1000 345' role='img' aria-labelledby='concepto-reparto-title concepto-reparto-desc'><title id='concepto-reparto-title'>Reparto artístico (1:N:N)</title><desc id='concepto-reparto-desc'>Fijados un personaje y una representación hay como máximo un actor asignado. Un actor puede interpretar varios personajes en la misma representación.</desc><path d='M165 130 V205 H365 M500 130 V163 M835 130 V205 H635' fill='none' stroke='#bc8540' stroke-width='2'/><g transform='translate(20 20)'><rect width='290' height='110' rx='10' fill='#e8f1eb' stroke='#9cafa2' stroke-width='2'/><text x='145' y='25' font-size='16' fill='#245c49' text-anchor='middle'>ACTORES_ACTRICES</text><text x='145' y='49' font-size='13' fill='#245c49' text-anchor='middle'>Atributos heredados de PARTICIPANTES</text></g><g transform='translate(355 20)'><rect width='290' height='110' rx='10' fill='#e8f1eb' stroke='#9cafa2' stroke-width='2'/><text x='145' y='25' font-size='16' fill='#245c49' text-anchor='middle'>PERSONAJES</text><text x='145' y='49' font-size='13' fill='#245c49' text-anchor='middle'>id_personaje · nombre</text><text x='145' y='68' font-size='13' fill='#245c49' text-anchor='middle'>tipo · descripcion</text></g><g transform='translate(690 20)'><rect width='290' height='110' rx='10' fill='#e8f1eb' stroke='#9cafa2' stroke-width='2'/><text x='145' y='25' font-size='16' fill='#245c49' text-anchor='middle'>REPRESENTACIONES</text><text x='145' y='49' font-size='13' fill='#245c49' text-anchor='middle'>id_representacion · fecha · hora</text><text x='145' y='68' font-size='13' fill='#245c49' text-anchor='middle'>lugar · observaciones</text></g><polygon points='500,163 635,205 500,247 365,205' fill='#f0e9f6' stroke='#aa91ba' stroke-width='2'/><text x='500' y='210' font-size='14' fill='#245c49' text-anchor='middle'>Interpreta en</text><text x='195' y='180' font-size='14' fill='#245c49' text-anchor='middle'>1</text><text x='530' y='152' font-size='14' fill='#245c49' text-anchor='middle'>N</text><text x='805' y='180' font-size='14' fill='#245c49' text-anchor='middle'>N</text><path d='M500 247 V275' fill='none' stroke='#bc8540' stroke-width='2'/><ellipse cx='500' cy='297' rx='190' ry='22' fill='#fffefa' stroke='#9cafa2'/><text x='500' y='302' font-size='13' fill='#245c49' text-anchor='middle'>observaciones</text></svg></figure><figure class='m-0 mb-7'><figcaption class='mb-3 font-bold text-[#245c49]'>Reparto técnico (N:1:N)</figcaption><svg class='block h-auto w-full min-w-[960px] font-[Segoe_UI,Arial,sans-serif]' viewBox='0 0 1000 345' role='img' aria-labelledby='concepto-reparto-tecnico-title concepto-reparto-tecnico-desc'><title id='concepto-reparto-tecnico-title'>Reparto técnico (N:1:N)</title><desc id='concepto-reparto-tecnico-desc'>Fijados un técnico y una representación hay como máximo una especialidad asignada. Varios técnicos pueden cubrir la misma especialidad.</desc><path d='M165 130 V205 H365 M500 130 V163 M835 130 V205 H635' fill='none' stroke='#bc8540' stroke-width='2'/><g transform='translate(20 20)'><rect width='290' height='110' rx='10' fill='#e8f1eb' stroke='#9cafa2' stroke-width='2'/><text x='145' y='25' font-size='16' fill='#245c49' text-anchor='middle'>TECNICOS</text><text x='145' y='49' font-size='13' fill='#245c49' text-anchor='middle'>Atributos heredados de PARTICIPANTES</text></g><g transform='translate(355 20)'><rect width='290' height='110' rx='10' fill='#e8f1eb' stroke='#9cafa2' stroke-width='2'/><text x='145' y='25' font-size='16' fill='#245c49' text-anchor='middle'>ESPECIALIDADES</text><text x='145' y='49' font-size='13' fill='#245c49' text-anchor='middle'>id_especialidad · nombre</text><text x='145' y='68' font-size='13' fill='#245c49' text-anchor='middle'>descripcion</text></g><g transform='translate(690 20)'><rect width='290' height='110' rx='10' fill='#e8f1eb' stroke='#9cafa2' stroke-width='2'/><text x='145' y='25' font-size='16' fill='#245c49' text-anchor='middle'>REPRESENTACIONES</text><text x='145' y='49' font-size='13' fill='#245c49' text-anchor='middle'>id_representacion · fecha · hora</text><text x='145' y='68' font-size='13' fill='#245c49' text-anchor='middle'>lugar · observaciones</text></g><polygon points='500,163 635,205 500,247 365,205' fill='#f0e9f6' stroke='#aa91ba' stroke-width='2'/><text x='500' y='210' font-size='14' fill='#245c49' text-anchor='middle'>Desempeña en</text><text x='195' y='180' font-size='14' fill='#245c49' text-anchor='middle'>N</text><text x='530' y='152' font-size='14' fill='#245c49' text-anchor='middle'>1</text><text x='805' y='180' font-size='14' fill='#245c49' text-anchor='middle'>N</text><path d='M500 247 V275' fill='none' stroke='#bc8540' stroke-width='2'/><ellipse cx='500' cy='297' rx='190' ry='22' fill='#fffefa' stroke='#9cafa2'/><text x='500' y='302' font-size='13' fill='#245c49' text-anchor='middle'>observaciones</text></svg></figure>
         </div>
-        <div class="rounded-2xl border border-slate-800 bg-slate-900/60 p-6 sm:p-8">
-          <span class="font-mono text-sm text-emerald-400" aria-hidden="true">&lt;/&gt; GitHub + MySQL</span>
-          <h2 class="mt-5 text-xl font-semibold text-white">El código vive en GitHub</h2>
-          <p class="mt-3 text-sm leading-relaxed text-slate-400">Este dashboard organiza los enlaces. Los archivos SQL, los enunciados y la documentación están en cada repositorio.</p>
-          <p class="mt-5 border-t border-slate-800 pt-4 text-xs text-slate-500">Sin editor SQL ni subida de archivos desde esta página.</p>
-        </div>
+        <p class="mt-3 text-[0.9rem] text-[#64716c]"><strong>Cardinalidades:</strong> 1:1 expresa la identidad entre cada actor o técnico y su participante; cada participante pertenece a uno o ambos subtipos. En las relaciones binarias, 0..N permite ninguna o muchas participaciones. En las ternarias, el número junto a una entidad se interpreta fijando las otras dos: 1 indica como máximo una; N, varias. Cada ocurrencia vincula exactamente una entidad de cada extremo principal; una entidad puede no tener convocatorias ni repartos.</p>
+        <p class="mt-3 text-[0.9rem] text-[#64716c]"><strong>Restricciones documentadas:</strong> toda convocatoria o reparto requiere la capacidad correspondiente. El sustituto es opcional y único por convocatoria artística; debe ser distinto del convocado, estar autorizado para ese personaje y solo se registra si el convocado está ausente. estado_asistencia admite prevista, asistio o ausente. En cada representación, cada personaje tiene un único intérprete y cada técnico desempeña como máximo una especialidad; una especialidad puede tener varios técnicos. Los repartos pueden estar pendientes de completar. Ensayos y representaciones son independientes.</p>
       </section>
+      <p class="mb-4 max-w-[760px] text-[#64716c]">El diseño se organiza en tres vistas del mismo modelo: capacidades, planificación de ensayos y reparto de representaciones. Las entidades repetidas son referencias a la misma entidad, no tablas adicionales.</p>
+      <p class="mb-4 max-w-[760px] text-[#64716c]"><strong>Nivel de detalle:</strong> el E/R conceptual describe entidades, relaciones, cardinalidades y especialización, sin detallar su implementación en tablas. Las vistas siguientes muestran el E/R lógico: resuelven las relaciones N:M mediante asociaciones e incluyen PK y FK. No constituyen un diagrama conceptual separado. La sección «Modelo relacional» especifica las tablas y sus referencias, incluidas las claves foráneas compuestas.</p>
+      <div class="min-w-0 overflow-x-auto rounded-[14px] border border-[#dce1d8] bg-[#fffefa] p-3.5 shadow-[0_16px_40px_rgb(34_49_41/0.08)] md:p-6">
+        <p class="mt-3.5 text-[0.9rem] text-[#64716c]"><strong>Lectura:</strong> el número junto a cada caja indica cuántas filas de esa entidad se relacionan con una fila del otro extremo. <strong>1</strong>: exactamente una; <strong>0..N</strong>: ninguna o muchas; <strong>0..1</strong>: ninguna o una. En pantallas pequeñas, desplaza los diagramas horizontalmente.</p>
+        <figure class="m-0 mb-7">
+          <figcaption class="mb-3 font-bold text-[#245c49]">1. Participantes y capacidades</figcaption>
+          <svg class="block h-auto w-full min-w-[960px] font-[Segoe_UI,Arial,sans-serif]" viewBox="0 0 1000 640" role="img" aria-labelledby="capacidades-title capacidades-desc">
+            <title id="capacidades-title">Participantes, subtipos y capacidades</title>
+            <desc id="capacidades-desc">Cada actor y técnico corresponde a un participante. Cada participante pertenece a uno o ambos subtipos. Actores y personajes se relacionan mediante ACTORES_PERSONAJES; técnicos y especialidades mediante TECNICOS_ESPECIALIDADES. Cada capacidad referencia exactamente una entidad de cada extremo y cada entidad puede tener cero o muchas capacidades.</desc>
+            <path class="fill-none stroke-[#bc8540] stroke-[2.5]" d="M350 110 H240 V210 M650 110 H760 V210"></path>
+            <path class="fill-none stroke-[#bc8540] stroke-[2.5]" d="M240 290 V360 M760 290 V360 M240 460 V530 M760 460 V530"></path>
+            <text class="fill-[#245c49] text-[13px] font-bold" x="325" y="100">1</text>
+            <text class="fill-[#245c49] text-[13px] font-bold" x="660" y="100">1</text>
+            <text class="fill-[#245c49] text-[13px] font-bold" x="250" y="200">0..1</text>
+            <text class="fill-[#245c49] text-[13px] font-bold" x="770" y="200">0..1</text>
+            <text class="fill-[#245c49] text-[13px] font-bold" x="250" y="310">1</text>
+            <text class="fill-[#245c49] text-[13px] font-bold" x="770" y="310">1</text>
+            <text class="fill-[#245c49] text-[13px] font-bold" x="250" y="350">0..N</text>
+            <text class="fill-[#245c49] text-[13px] font-bold" x="770" y="350">0..N</text>
+            <text class="fill-[#245c49] text-[13px] font-bold" x="250" y="480">0..N</text>
+            <text class="fill-[#245c49] text-[13px] font-bold" x="770" y="480">0..N</text>
+            <text class="fill-[#245c49] text-[13px] font-bold" x="250" y="520">1</text>
+            <text class="fill-[#245c49] text-[13px] font-bold" x="770" y="520">1</text>
+            <g transform="translate(350 15)">
+              <rect class="fill-[#fffefa] stroke-[#9cafa2] stroke-2" width="300" height="145" rx="10"></rect>
+              <text class="fill-[#245c49] text-[16px] font-bold" x="16" y="28">PARTICIPANTES</text>
+              <text class="fill-[#245c49] text-[14px] font-bold" x="16" y="55">PK  id_participante</text>
+              <text class="fill-[#202c29] text-[14px]" x="16" y="80">nombre</text>
+              <text class="fill-[#202c29] text-[14px]" x="16" y="105">apellido_1 · apellido_2</text>
+              <text class="fill-[#202c29] text-[14px]" x="16" y="130">movil</text>
+            </g>
+            <text class="fill-[#202c29] text-[14px]" x="500" y="185" text-anchor="middle">Especialización TOTAL y SOLAPADA: actor, técnico o ambos.</text>
+            <g transform="translate(90 210)">
+              <rect class="fill-[#e8f1eb] stroke-[#9cafa2] stroke-2" width="300" height="80" rx="10"></rect>
+              <text class="fill-[#245c49] text-[16px] font-bold" x="16" y="30">ACTORES_ACTRICES</text>
+              <text class="fill-[#245c49] text-[14px] font-bold" x="16" y="60">PK, FK  id_participante</text>
+            </g>
+            <g transform="translate(610 210)">
+              <rect class="fill-[#e8f1eb] stroke-[#9cafa2] stroke-2" width="300" height="80" rx="10"></rect>
+              <text class="fill-[#245c49] text-[16px] font-bold" x="16" y="30">TECNICOS</text>
+              <text class="fill-[#245c49] text-[14px] font-bold" x="16" y="60">PK, FK  id_participante</text>
+            </g>
+            <g transform="translate(90 360)">
+              <rect class="fill-[#f0e9f6] stroke-[#aa91ba] stroke-2" width="300" height="100" rx="10"></rect>
+              <text class="fill-[#245c49] text-[16px] font-bold" x="16" y="28">ACTORES_PERSONAJES</text>
+              <text class="fill-[#245c49] text-[14px] font-bold" x="16" y="57">PK, FK  id_participante</text>
+              <text class="fill-[#245c49] text-[14px] font-bold" x="16" y="82">PK, FK  id_personaje</text>
+            </g>
+            <g transform="translate(610 360)">
+              <rect class="fill-[#f0e9f6] stroke-[#aa91ba] stroke-2" width="300" height="100" rx="10"></rect>
+              <text class="fill-[#245c49] text-[16px] font-bold" x="16" y="28">TECNICOS_ESPECIALIDADES</text>
+              <text class="fill-[#245c49] text-[14px] font-bold" x="16" y="57">PK, FK  id_participante</text>
+              <text class="fill-[#245c49] text-[14px] font-bold" x="16" y="82">PK, FK  id_especialidad</text>
+            </g>
+            <g transform="translate(90 530)">
+              <rect class="fill-[#fffefa] stroke-[#9cafa2] stroke-2" width="300" height="105" rx="10"></rect>
+              <text class="fill-[#245c49] text-[16px] font-bold" x="16" y="28">PERSONAJES</text>
+              <text class="fill-[#245c49] text-[14px] font-bold" x="16" y="54">PK  id_personaje</text>
+              <text class="fill-[#202c29] text-[14px]" x="16" y="78">nombre · tipo · descripcion</text>
+            </g>
+            <g transform="translate(610 530)">
+              <rect class="fill-[#fffefa] stroke-[#9cafa2] stroke-2" width="300" height="105" rx="10"></rect>
+              <text class="fill-[#245c49] text-[16px] font-bold" x="16" y="28">ESPECIALIDADES</text>
+              <text class="fill-[#245c49] text-[14px] font-bold" x="16" y="54">PK  id_especialidad</text>
+              <text class="fill-[#202c29] text-[14px]" x="16" y="78">nombre (UK) · descripcion</text>
+            </g>
+          </svg>
+        </figure>
+        <figure class="m-0 mb-7">
+          <figcaption class="mb-3 font-bold text-[#245c49]">2. Ensayos, convocatorias y escenas</figcaption>
+          <svg class="block h-auto w-full min-w-[960px] font-[Segoe_UI,Arial,sans-serif]" viewBox="0 0 1000 640" role="img" aria-labelledby="ensayos-title ensayos-desc">
+            <title id="ensayos-title">Planificación independiente de los ensayos</title>
+            <desc id="ensayos-desc">ENSAYOS se relaciona de uno a cero o muchas filas con CONVOCATORIAS_ACTORES, CONVOCATORIAS_TECNICOS y ENSAYOS_ESCENAS. Cada convocatoria tiene exactamente un actor y un personaje, o un técnico y una especialidad. CONVOCATORIAS_ACTORES registra estado_asistencia e id_sustituto opcional, con como máximo un sustituto autorizado por convocatoria. Cada fila de ENSAYOS_ESCENAS tiene exactamente una escena. Cada entidad de referencia puede aparecer en cero o muchas asignaciones. No hay relación directa con representaciones.</desc>
+            <path class="fill-none stroke-[#bc8540] stroke-[2.5]" d="M260 230 H300 V90 H380 M260 280 H380 M260 330 H300 V510 H380"></path>
+            <path class="fill-none stroke-[#bc8540] stroke-[2.5]" d="M660 55 L760 45 M660 125 L760 160 M660 275 L760 265 M660 345 L760 380 M660 510 H760"></path>
+            <text class="fill-[#245c49] text-[13px] font-bold" x="270" y="220">1</text>
+            <text class="fill-[#245c49] text-[13px] font-bold" x="270" y="270">1</text>
+            <text class="fill-[#245c49] text-[13px] font-bold" x="270" y="350">1</text>
+            <text class="fill-[#245c49] text-[13px] font-bold" x="338" y="80">0..N</text>
+            <text class="fill-[#245c49] text-[13px] font-bold" x="338" y="270">0..N</text>
+            <text class="fill-[#245c49] text-[13px] font-bold" x="338" y="500">0..N</text>
+            <text class="fill-[#245c49] text-[13px] font-bold" x="670" y="45">0..N</text>
+            <text class="fill-[#245c49] text-[13px] font-bold" x="740" y="35">1</text>
+            <text class="fill-[#245c49] text-[13px] font-bold" x="670" y="125">0..N</text>
+            <text class="fill-[#245c49] text-[13px] font-bold" x="740" y="150">1</text>
+            <text class="fill-[#245c49] text-[13px] font-bold" x="670" y="265">0..N</text>
+            <text class="fill-[#245c49] text-[13px] font-bold" x="740" y="255">1</text>
+            <text class="fill-[#245c49] text-[13px] font-bold" x="670" y="345">0..N</text>
+            <text class="fill-[#245c49] text-[13px] font-bold" x="740" y="370">1</text>
+            <text class="fill-[#245c49] text-[13px] font-bold" x="670" y="500">0..N</text>
+            <text class="fill-[#245c49] text-[13px] font-bold" x="740" y="500">1</text>
+            <g transform="translate(20 195)">
+              <rect class="fill-[#fffefa] stroke-[#9cafa2] stroke-2" width="240" height="175" rx="10"></rect>
+              <text class="fill-[#245c49] text-[16px] font-bold" x="16" y="28">ENSAYOS</text>
+              <text class="fill-[#245c49] text-[14px] font-bold" x="16" y="55">PK  id_ensayo</text>
+              <text class="fill-[#202c29] text-[14px]" x="16" y="82">fecha · hora</text>
+              <text class="fill-[#202c29] text-[14px]" x="16" y="109">tipo (ordinario/general)</text>
+              <text class="fill-[#202c29] text-[14px]" x="16" y="136">lugar · observaciones</text>
+            </g>
+            <g transform="translate(380 20)">
+              <rect class="fill-[#f0e9f6] stroke-[#aa91ba] stroke-2" width="280" height="205" rx="10"></rect>
+              <text class="fill-[#245c49] text-[16px] font-bold" x="16" y="28">CONVOCATORIAS_ACTORES</text>
+              <text class="fill-[#245c49] text-[14px] font-bold" x="16" y="55">PK, FK  id_ensayo</text>
+              <text class="fill-[#245c49] text-[14px] font-bold" x="16" y="80">PK, FK  id_participante</text>
+              <text class="fill-[#245c49] text-[14px] font-bold" x="16" y="105">PK, FK  id_personaje</text>
+              <text class="fill-[#202c29] text-[14px]" x="16" y="130">observaciones</text>
+              <text class="fill-[#202c29] text-[14px]" x="16" y="155">estado_asistencia</text>
+              <text class="fill-[#202c29] text-[14px]" x="16" y="180">id_sustituto (FK+, NULL)</text>
+            </g>
+            <g transform="translate(380 240)">
+              <rect class="fill-[#f0e9f6] stroke-[#aa91ba] stroke-2" width="280" height="150" rx="10"></rect>
+              <text class="fill-[#245c49] text-[16px] font-bold" x="16" y="28">CONVOCATORIAS_TECNICOS</text>
+              <text class="fill-[#245c49] text-[14px] font-bold" x="16" y="55">PK, FK  id_ensayo</text>
+              <text class="fill-[#245c49] text-[14px] font-bold" x="16" y="80">PK, FK  id_participante</text>
+              <text class="fill-[#245c49] text-[14px] font-bold" x="16" y="105">PK, FK  id_especialidad</text>
+              <text class="fill-[#202c29] text-[14px]" x="16" y="132">observaciones</text>
+            </g>
+            <g transform="translate(380 460)">
+              <rect class="fill-[#f0e9f6] stroke-[#aa91ba] stroke-2" width="280" height="100" rx="10"></rect>
+              <text class="fill-[#245c49] text-[16px] font-bold" x="16" y="28">ENSAYOS_ESCENAS</text>
+              <text class="fill-[#245c49] text-[14px] font-bold" x="16" y="56">PK, FK  id_ensayo</text>
+              <text class="fill-[#245c49] text-[14px] font-bold" x="16" y="82">PK, FK  id_escena</text>
+            </g>
+            <g transform="translate(760 10)">
+              <rect class="fill-[#e8f1eb] stroke-[#9cafa2] stroke-2" width="230" height="70" rx="10"></rect>
+              <text class="fill-[#245c49] text-[16px] font-bold" x="12" y="28">ACTORES_ACTRICES</text>
+              <text class="fill-[#202c29] text-[14px]" x="12" y="55">id_participante</text>
+            </g>
+            <g transform="translate(760 125)">
+              <rect class="fill-[#fffefa] stroke-[#9cafa2] stroke-2" width="230" height="70" rx="10"></rect>
+              <text class="fill-[#245c49] text-[16px] font-bold" x="12" y="28">PERSONAJES</text>
+              <text class="fill-[#202c29] text-[14px]" x="12" y="55">id_personaje</text>
+            </g>
+            <g transform="translate(760 230)">
+              <rect class="fill-[#e8f1eb] stroke-[#9cafa2] stroke-2" width="230" height="70" rx="10"></rect>
+              <text class="fill-[#245c49] text-[16px] font-bold" x="12" y="28">TECNICOS</text>
+              <text class="fill-[#202c29] text-[14px]" x="12" y="55">id_participante</text>
+            </g>
+            <g transform="translate(760 345)">
+              <rect class="fill-[#fffefa] stroke-[#9cafa2] stroke-2" width="230" height="70" rx="10"></rect>
+              <text class="fill-[#245c49] text-[16px] font-bold" x="12" y="28">ESPECIALIDADES</text>
+              <text class="fill-[#202c29] text-[14px]" x="12" y="55">id_especialidad</text>
+            </g>
+            <g transform="translate(760 460)">
+              <rect class="fill-[#fffefa] stroke-[#9cafa2] stroke-2" width="230" height="160" rx="10"></rect>
+              <text class="fill-[#245c49] text-[16px] font-bold" x="12" y="28">ESCENAS</text>
+              <text class="fill-[#245c49] text-[14px] font-bold" x="12" y="55">PK  id_escena</text>
+              <text class="fill-[#202c29] text-[14px]" x="12" y="80">numero_escena (UK)</text>
+              <text class="fill-[#202c29] text-[14px]" x="12" y="105">titulo · descripcion</text>
+              <text class="fill-[#202c29] text-[14px]" x="12" y="130">duracion_estimada (min)</text>
+            </g>
+          </svg>
+        </figure>
+        <figure class="m-0 mb-7">
+          <figcaption class="mb-3 font-bold text-[#245c49]">3. Representaciones y repartos</figcaption>
+          <svg class="block h-auto w-full min-w-[960px] font-[Segoe_UI,Arial,sans-serif]" viewBox="0 0 1000 560" role="img" aria-labelledby="repartos-title repartos-desc">
+            <title id="repartos-title">Asignaciones de cada representación</title>
+            <desc id="repartos-desc">Una representación tiene cero o muchas asignaciones artísticas y técnicas. Cada reparto referencia exactamente una representación, un actor y un personaje. Cada reparto técnico referencia exactamente una representación, un técnico y una especialidad. La restricción UNIQUE(id_representacion, id_participante) permite como máximo una especialidad técnica por técnico y representación; una misma especialidad puede corresponder a varios técnicos. Una persona puede tener asignaciones artísticas y técnicas simultáneas. Cada actor, personaje, técnico y especialidad puede aparecer en cero o muchas asignaciones.</desc>
+            <path class="fill-none stroke-[#bc8540] stroke-[2.5]" d="M270 235 H310 V100 H380 M270 290 H310 V430 H380"></path>
+            <path class="fill-none stroke-[#bc8540] stroke-[2.5]" d="M660 65 L760 45 M660 135 L760 165 M660 395 L760 375 M660 465 L760 495"></path>
+            <text class="fill-[#245c49] text-[13px] font-bold" x="280" y="225">1</text>
+            <text class="fill-[#245c49] text-[13px] font-bold" x="280" y="310">1</text>
+            <text class="fill-[#245c49] text-[13px] font-bold" x="338" y="90">0..N</text>
+            <text class="fill-[#245c49] text-[13px] font-bold" x="338" y="420">0..N</text>
+            <text class="fill-[#245c49] text-[13px] font-bold" x="670" y="55">0..N</text>
+            <text class="fill-[#245c49] text-[13px] font-bold" x="740" y="35">1</text>
+            <text class="fill-[#245c49] text-[13px] font-bold" x="670" y="135">0..N</text>
+            <text class="fill-[#245c49] text-[13px] font-bold" x="740" y="155">1</text>
+            <text class="fill-[#245c49] text-[13px] font-bold" x="670" y="385">0..N</text>
+            <text class="fill-[#245c49] text-[13px] font-bold" x="740" y="365">1</text>
+            <text class="fill-[#245c49] text-[13px] font-bold" x="670" y="465">0..N</text>
+            <text class="fill-[#245c49] text-[13px] font-bold" x="740" y="485">1</text>
+            <g transform="translate(20 180)">
+              <rect class="fill-[#fffefa] stroke-[#9cafa2] stroke-2" width="250" height="155" rx="10"></rect>
+              <text class="fill-[#245c49] text-[16px] font-bold" x="16" y="28">REPRESENTACIONES</text>
+              <text class="fill-[#245c49] text-[14px] font-bold" x="16" y="55">PK  id_representacion</text>
+              <text class="fill-[#202c29] text-[14px]" x="16" y="82">fecha · hora</text>
+              <text class="fill-[#202c29] text-[14px]" x="16" y="109">lugar · observaciones</text>
+            </g>
+            <g transform="translate(380 30)">
+              <rect class="fill-[#f0e9f6] stroke-[#aa91ba] stroke-2" width="280" height="150" rx="10"></rect>
+              <text class="fill-[#245c49] text-[16px] font-bold" x="16" y="28">REPARTOS</text>
+              <text class="fill-[#245c49] text-[14px] font-bold" x="16" y="55">PK, FK  id_representacion</text>
+              <text class="fill-[#245c49] text-[14px] font-bold" x="16" y="80">PK, FK  id_personaje</text>
+              <text class="fill-[#245c49] text-[14px] font-bold" x="16" y="105">FK  id_participante</text>
+              <text class="fill-[#202c29] text-[14px]" x="16" y="132">observaciones</text>
+            </g>
+            <g transform="translate(380 360)">
+              <rect class="fill-[#f0e9f6] stroke-[#aa91ba] stroke-2" width="280" height="180" rx="10"></rect>
+              <text class="fill-[#245c49] text-[16px] font-bold" x="16" y="28">REPARTOS_TECNICOS</text>
+              <text class="fill-[#245c49] text-[14px] font-bold" x="16" y="55">PK, FK  id_representacion</text>
+              <text class="fill-[#245c49] text-[14px] font-bold" x="16" y="80">PK, FK  id_participante</text>
+              <text class="fill-[#245c49] text-[14px] font-bold" x="16" y="105">PK, FK  id_especialidad</text>
+              <text class="fill-[#202c29] text-[14px]" x="16" y="132">observaciones</text>
+              <text class="fill-[#245c49] text-[11px] font-bold" x="16" y="157">UNIQUE (id_representacion, id_participante)</text>
+            </g>
+            <g transform="translate(760 10)">
+              <rect class="fill-[#e8f1eb] stroke-[#9cafa2] stroke-2" width="230" height="70" rx="10"></rect>
+              <text class="fill-[#245c49] text-[16px] font-bold" x="12" y="28">ACTORES_ACTRICES</text>
+              <text class="fill-[#202c29] text-[14px]" x="12" y="55">id_participante</text>
+            </g>
+            <g transform="translate(760 130)">
+              <rect class="fill-[#fffefa] stroke-[#9cafa2] stroke-2" width="230" height="70" rx="10"></rect>
+              <text class="fill-[#245c49] text-[16px] font-bold" x="12" y="28">PERSONAJES</text>
+              <text class="fill-[#202c29] text-[14px]" x="12" y="55">id_personaje</text>
+            </g>
+            <g transform="translate(760 340)">
+              <rect class="fill-[#e8f1eb] stroke-[#9cafa2] stroke-2" width="230" height="70" rx="10"></rect>
+              <text class="fill-[#245c49] text-[16px] font-bold" x="12" y="28">TECNICOS</text>
+              <text class="fill-[#202c29] text-[14px]" x="12" y="55">id_participante</text>
+            </g>
+            <g transform="translate(760 460)">
+              <rect class="fill-[#fffefa] stroke-[#9cafa2] stroke-2" width="230" height="70" rx="10"></rect>
+              <text class="fill-[#245c49] text-[16px] font-bold" x="12" y="28">ESPECIALIDADES</text>
+              <text class="fill-[#202c29] text-[14px]" x="12" y="55">id_especialidad</text>
+            </g>
+          </svg>
+        </figure>
+        <p class="mt-3.5 text-[0.9rem] text-[#64716c]"><strong>PK</strong>: clave primaria; las columnas marcadas PK en una misma caja forman una única clave compuesta. <strong>FK</strong>: clave foránea. <strong>UK</strong>: clave única. Cajas verdes: subtipos; moradas: asociaciones.</p>
+        <p class="mt-3.5 text-[0.9rem] text-[#64716c]"><strong>Regla de capacidades:</strong> las parejas actor–personaje y técnico–especialidad de convocatorias y repartos deben existir en ACTORES_PERSONAJES y TECNICOS_ESPECIALIDADES. Esta condición se expresa mediante FK compuestas en el modelo relacional.</p>
+        <p class="mt-3.5 text-[0.9rem] text-[#64716c]"><strong>Sustituciones en ensayos:</strong> CONVOCATORIAS_ACTORES conserva la convocatoria original y registra estado_asistencia e id_sustituto, que es opcional (0..1 por convocatoria). La FK compuesta (id_sustituto, id_personaje) referencia ACTORES_PERSONAJES y garantiza que el sustituto está autorizado para ese personaje.</p>
+        <p class="mt-3.5 text-[0.9rem] text-[#64716c]"><strong>Reglas teatrales:</strong> un personaje tiene un solo intérprete por representación; un actor puede interpretar varios personajes en la misma función. Cada técnico puede ejercer una sola especialidad en una representación, aunque tenga varias capacidades; una especialidad puede asignarse a varios técnicos. Una misma persona puede tener a la vez un reparto artístico y una asignación técnica. Luces y sonido suelen tener un técnico, pero no se prohíben excepciones. Los ensayos no se vinculan directamente con representaciones y no se registran repeticiones ni orden de intervención.</p>
+      </div>
+    </details>
 
-      <section aria-label="Resumen de repositorios" class="grid grid-cols-2 gap-3 sm:gap-5 lg:grid-cols-4" id="stats"></section>
+    <details class="group mb-3 min-w-0 rounded-[14px] border border-[#dce1d8] bg-[#fffefa] shadow-[0_16px_40px_rgb(34_49_41/0.08)] [&>:not(summary)]:mx-4 [&>:last-child]:mb-4 [&>summary+*]:mt-5 md:[&>:not(summary)]:mx-6 md:[&>:last-child]:mb-6">
+      <summary class="flex cursor-pointer list-none items-start gap-2.5 rounded-xl p-4 focus-visible:outline-3 focus-visible:outline-offset-3 focus-visible:outline-[#bc8540] md:items-baseline md:gap-3.5 md:px-[22px] md:py-[18px] [&::-webkit-details-marker]:hidden">
+        <span aria-hidden="true" class="text-[1.3rem] leading-none font-bold text-[#bc8540] group-open:hidden">+</span>
+        <span aria-hidden="true" class="hidden text-[1.3rem] leading-none font-bold text-[#bc8540] group-open:inline">−</span>
+        <span class="min-w-0 text-xl leading-[1.3] font-bold text-[#202c29]" role="heading" aria-level="2">Modelo relacional</span>
+        <span class="hidden text-[0.92rem] text-[#64716c] md:block">Tablas, atributos y claves.</span>
+      </summary>
+      <p class="mb-4 max-w-[760px] text-[#64716c]">Todas las referencias son obligatorias salvo la FK compuesta opcional de id_sustituto en CONVOCATORIAS_ACTORES. Las claves primarias compuestas impiden duplicar asignaciones idénticas, sin añadir un UNIQUE equivalente.</p>
+      <p class="mb-4 max-w-[760px] text-[#64716c]">Cada tarjeta representa una tabla. <strong>PK</strong> indica una clave primaria; <strong>PK+</strong> marca las columnas de una clave primaria compuesta; <strong>FK</strong> identifica una clave foránea y <strong>FK+</strong> las columnas que forman conjuntamente una FK compuesta. Las referencias se muestran debajo de cada esquema.</p>
+      <div class="grid min-w-0 grid-cols-1 gap-4 lg:grid-cols-2">
+        <article class="min-w-0 overflow-hidden rounded-xl border border-[#dce1d8] bg-[#fffefa]">
+          <h3 class="border-b border-[#dce1d8] bg-[#f3f6f8] px-4 py-3 font-mono text-[0.95rem] font-bold">1. PARTICIPANTES</h3>
+          <pre class="m-0 overflow-x-auto bg-[#030719] p-4 font-mono text-[0.9rem] leading-[1.65] whitespace-pre-wrap break-words text-[#f4f6ff]"><code>PARTICIPANTES (
+    id_participante PK,
+    nombre,
+    apellido_1,
+    apellido_2,
+    movil
+)</code></pre>
+        </article>
+        <article class="min-w-0 overflow-hidden rounded-xl border border-[#dce1d8] bg-[#fffefa]">
+          <h3 class="border-b border-[#dce1d8] bg-[#f3f6f8] px-4 py-3 font-mono text-[0.95rem] font-bold">2. ACTORES_ACTRICES</h3>
+          <pre class="m-0 overflow-x-auto bg-[#030719] p-4 font-mono text-[0.9rem] leading-[1.65] whitespace-pre-wrap break-words text-[#f4f6ff]"><code>ACTORES_ACTRICES (
+    id_participante PK, FK
+)
 
-      <section id="repositorios" class="scroll-mt-6" aria-labelledby="repositories-title">
-        <div class="mb-6 flex flex-wrap items-end justify-between gap-3">
-          <div>
-            <h2 id="repositories-title" class="text-2xl font-bold tracking-tight text-white">Explora los repositorios</h2>
-            <p class="mt-1 text-sm text-slate-400">Accede a cada proyecto directamente en GitHub.</p>
-          </div>
-          <span class="rounded-full border border-slate-800 px-3 py-1 text-xs text-slate-400">Colección en crecimiento</span>
-        </div>
-        <div class="rounded-2xl border border-slate-800 bg-slate-900/60 mb-6 flex flex-col gap-4 p-4 xl:flex-row xl:items-center xl:justify-between">
-          <div class="flex flex-wrap gap-1" role="group" aria-label="Filtrar por nivel" id="filters">
-            <button type="button" class="cursor-pointer rounded-lg px-4 py-2 text-sm font-medium transition hover:bg-slate-800 aria-pressed:bg-emerald-400 aria-pressed:text-slate-950 aria-pressed:hover:bg-emerald-300" data-level="Todos" aria-pressed="true">Todos</button>
-            <button type="button" class="cursor-pointer rounded-lg px-4 py-2 text-sm font-medium transition hover:bg-slate-800 aria-pressed:bg-emerald-400 aria-pressed:text-slate-950 aria-pressed:hover:bg-emerald-300" data-level="Básico" aria-pressed="false">Básico</button>
-            <button type="button" class="cursor-pointer rounded-lg px-4 py-2 text-sm font-medium transition hover:bg-slate-800 aria-pressed:bg-emerald-400 aria-pressed:text-slate-950 aria-pressed:hover:bg-emerald-300" data-level="Intermedio" aria-pressed="false">Intermedio</button>
-            <button type="button" class="cursor-pointer rounded-lg px-4 py-2 text-sm font-medium transition hover:bg-slate-800 aria-pressed:bg-emerald-400 aria-pressed:text-slate-950 aria-pressed:hover:bg-emerald-300" data-level="Avanzado" aria-pressed="false">Avanzado</button>
-          </div>
-          <div class="flex flex-col gap-3 sm:flex-row">
-            <label class="sr-only" for="search">Buscar repositorios</label>
-            <input id="search" type="search" placeholder="Buscar un repositorio…" class="min-w-0 rounded-lg border border-slate-700 bg-slate-950 px-4 py-2 text-sm placeholder:text-slate-500 sm:w-64" />
-            <label class="sr-only" for="sort">Ordenar repositorios</label>
-            <select id="sort" class="rounded-lg border border-slate-700 bg-slate-950 px-3 py-2 text-sm">
-              <option value="default">Orden de la colección</option>
-              <option value="title">Nombre A–Z</option>
-            </select>
-          </div>
-        </div>
-        <p id="results" class="mb-4 text-sm text-slate-500" role="status" aria-live="polite"></p>
-        <div id="cards" class="grid gap-5 md:grid-cols-2 xl:grid-cols-3"></div>
-        <div id="empty" class="rounded-2xl border border-slate-800 bg-slate-900/60 hidden px-6 py-12 text-center">
-          <h3 id="empty-title" class="text-lg font-semibold text-white">Aún no hay repositorios</h3>
-          <p id="empty-description" class="mt-2 text-sm text-slate-400">Los enlaces a GitHub aparecerán aquí cuando los añadamos a la colección.</p>
-          <button id="reset" type="button" class="mt-5 rounded-lg bg-emerald-400 px-4 py-2 text-sm font-bold text-slate-950 hover:bg-emerald-300">Limpiar filtros</button>
-        </div>
-      </section>
-    </main>
-    <footer class="mx-auto flex max-w-7xl flex-wrap justify-between gap-2 border-t border-slate-800 px-5 py-6 text-xs text-slate-500 sm:px-8">
-      <span>SQL Lab · Hecho para aprender.</span>
-      <span>MySQL / Práctica / Código</span>
-    </footer>
+donde
+    {id_participante} referencia PARTICIPANTES</code></pre>
+        </article>
+        <article class="min-w-0 overflow-hidden rounded-xl border border-[#dce1d8] bg-[#fffefa]">
+          <h3 class="border-b border-[#dce1d8] bg-[#f3f6f8] px-4 py-3 font-mono text-[0.95rem] font-bold">3. TECNICOS</h3>
+          <pre class="m-0 overflow-x-auto bg-[#030719] p-4 font-mono text-[0.9rem] leading-[1.65] whitespace-pre-wrap break-words text-[#f4f6ff]"><code>TECNICOS (
+    id_participante PK, FK
+)
 
-    <template id="card-template">
-      <article class="rounded-2xl border border-slate-800 bg-slate-900/60 flex flex-col p-6 transition hover:border-slate-600">
-        <div class="mb-5 flex items-center justify-between">
-          <span data-field="number" class="font-mono text-sm text-slate-500"></span>
-          <span data-field="level" class="rounded-full px-2.5 py-1 text-xs font-medium"></span>
-        </div>
-        <h3 data-field="title" class="text-lg font-semibold text-white"></h3>
-        <p data-field="description" class="mt-2 grow text-sm leading-relaxed text-slate-400"></p>
-        <div data-field="tags" class="my-5 flex flex-wrap gap-2"></div>
-        <a data-field="link" target="_blank" rel="noopener noreferrer" class="border-t border-slate-800 pt-4 text-sm font-semibold text-emerald-400 hover:text-emerald-200">Abrir proyecto ↗</a>
-      </article>
-    </template>
-    <script>
-      // Añade un objeto por repositorio; las tarjetas y contadores se generan solos.
-      // Formato: { title: "Nombre", level: "Básico", description: "Descripción", tags: ["SELECT"], url: "https://github.com/usuario/repositorio" }
-      // Niveles disponibles: Básico, Intermedio, Avanzado.
-      const repositories = [
-        {
-          title: "El ciclo de vida de los datos",
-          level: "Básico",
-          description: "Ejercicios sobre el ciclo de vida de los datos.",
-          tags: ["MySQL", "UF01", "Ciclo de vida"],
-          url: "https://fontanillus.github.io/mysql-uf01-ciclo-vida-datos/"
-        },
-        {
-          title: "Diagramas E/R y transformación",
-          level: "Intermedio",
-          description: "Cuatro escenarios para practicar el modelo entidad-relación y su transformación al modelo relacional.",
-          tags: ["Bases de datos", "Modelo E/R", "Modelo relacional"],
-          url: "https://fontanillus.github.io/diagramas-er-transformacion/"
-        },
-        {
-          title: "Normalización y buenas prácticas",
-          level: "Intermedio",
-          description: "Cuaderno de bases de datos sobre normalización y buenas prácticas.",
-          tags: ["Bases de datos", "Normalización", "Buenas prácticas"],
-          url: "https://fontanillus.github.io/normalizacion-buenas-practicas/"
-        },
-        {
-          title: "Entidades débiles e ISA",
-          level: "Intermedio",
-          description: "Entidades débiles y jerarquías ISA en el modelo entidad-relación.",
-          tags: ["Bases de datos", "Modelo E/R", "Entidades débiles", "ISA"],
-          url: "https://fontanillus.github.io/entidades-debiles-isa/"
-        }
-      ];
-      const levelStyles = {
-        "Básico": "bg-emerald-400/10 text-emerald-300",
-        "Intermedio": "bg-amber-400/10 text-amber-300",
-        "Avanzado": "bg-violet-400/10 text-violet-300"
-      };
-      let selectedLevel = "Todos";
-      const search = document.querySelector("#search");
-      const sort = document.querySelector("#sort");
-      const cards = document.querySelector("#cards");
-      const filterButtons = document.querySelectorAll("[data-level]");
-      const normalize = (text) => text.normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLocaleLowerCase("es");
+donde
+    {id_participante} referencia PARTICIPANTES</code></pre>
+        </article>
+        <article class="min-w-0 overflow-hidden rounded-xl border border-[#dce1d8] bg-[#fffefa]">
+          <h3 class="border-b border-[#dce1d8] bg-[#f3f6f8] px-4 py-3 font-mono text-[0.95rem] font-bold">4. PERSONAJES</h3>
+          <pre class="m-0 overflow-x-auto bg-[#030719] p-4 font-mono text-[0.9rem] leading-[1.65] whitespace-pre-wrap break-words text-[#f4f6ff]"><code>PERSONAJES (
+    id_personaje PK,
+    nombre,
+    tipo,
+    descripcion
+)</code></pre>
+        </article>
+        <article class="min-w-0 overflow-hidden rounded-xl border border-[#dce1d8] bg-[#fffefa]">
+          <h3 class="border-b border-[#dce1d8] bg-[#f3f6f8] px-4 py-3 font-mono text-[0.95rem] font-bold">5. ESPECIALIDADES</h3>
+          <pre class="m-0 overflow-x-auto bg-[#030719] p-4 font-mono text-[0.9rem] leading-[1.65] whitespace-pre-wrap break-words text-[#f4f6ff]"><code>ESPECIALIDADES (
+    id_especialidad PK,
+    nombre UNIQUE,
+    descripcion
+)</code></pre>
+        </article>
+        <article class="min-w-0 overflow-hidden rounded-xl border border-[#dce1d8] bg-[#fffefa]">
+          <h3 class="border-b border-[#dce1d8] bg-[#f3f6f8] px-4 py-3 font-mono text-[0.95rem] font-bold">6. ACTORES_PERSONAJES</h3>
+          <pre class="m-0 overflow-x-auto bg-[#030719] p-4 font-mono text-[0.9rem] leading-[1.65] whitespace-pre-wrap break-words text-[#f4f6ff]"><code>ACTORES_PERSONAJES (
+    id_participante PK+, FK,
+    id_personaje PK+, FK
+)
 
-      function render() {
-        const query = normalize(search.value.trim());
-        const filtered = repositories.filter((repository) =>
-          (selectedLevel === "Todos" || repository.level === selectedLevel) &&
-          normalize([repository.title, repository.description, repository.level, ...repository.tags].join(" ")).includes(query)
-        );
-        if (sort.value === "title") filtered.sort((a, b) => a.title.localeCompare(b.title, "es"));
-        cards.replaceChildren();
-        for (const repository of filtered) {
-          const card = document.querySelector("#card-template").content.cloneNode(true);
-          const field = (name) => card.querySelector(`[data-field="${name}"]`);
-          for (const key of ["title", "description", "level"]) field(key).textContent = repository[key];
-          field("number").textContent = `REPO ${String(repositories.indexOf(repository) + 1).padStart(2, "0")}`;
-          field("level").classList.add(...levelStyles[repository.level].split(" "));
-          field("link").href = repository.url;
-          field("link").setAttribute("aria-label", `Abrir ${repository.title} (nueva pestaña)`);
-          for (const tag of repository.tags) {
-            const badge = document.createElement("span");
-            badge.className = "rounded-md bg-slate-800 px-2 py-1 font-mono text-[11px] text-slate-400";
-            badge.textContent = tag;
-            field("tags").append(badge);
-          }
-          cards.append(card);
-        }
-        document.querySelector("#results").textContent = `${filtered.length} de ${repositories.length} repositorios`;
-        document.querySelector("#empty").classList.toggle("hidden", filtered.length > 0);
-        document.querySelector("#empty-title").textContent = repositories.length ? "No hay repositorios con esos filtros" : "Aún no hay repositorios";
-        document.querySelector("#empty-description").textContent = repositories.length ? "Prueba otro término o selecciona otro nivel." : "Los enlaces a GitHub aparecerán aquí cuando los añadamos a la colección.";
-        document.querySelector("#reset").classList.toggle("hidden", repositories.length === 0);
-        for (const button of filterButtons) button.setAttribute("aria-pressed", String(button.dataset.level === selectedLevel));
-      }
+donde
+    {id_participante} referencia ACTORES_ACTRICES
+    {id_personaje} referencia PERSONAJES</code></pre>
+        </article>
+        <article class="min-w-0 overflow-hidden rounded-xl border border-[#dce1d8] bg-[#fffefa]">
+          <h3 class="border-b border-[#dce1d8] bg-[#f3f6f8] px-4 py-3 font-mono text-[0.95rem] font-bold">7. TECNICOS_ESPECIALIDADES</h3>
+          <pre class="m-0 overflow-x-auto bg-[#030719] p-4 font-mono text-[0.9rem] leading-[1.65] whitespace-pre-wrap break-words text-[#f4f6ff]"><code>TECNICOS_ESPECIALIDADES (
+    id_participante PK+, FK,
+    id_especialidad PK+, FK
+)
 
-      for (const [level, label] of [["Todos", "Repositorios disponibles"], ["Básico", "Nivel básico"], ["Intermedio", "Nivel intermedio"], ["Avanzado", "Nivel avanzado"]]) {
-        const stat = document.createElement("div");
-        stat.className = "rounded-2xl border border-slate-800 bg-slate-900/60 p-5";
-        const count = document.createElement("p");
-        count.className = "text-3xl font-semibold tracking-tight text-white";
-        count.textContent = String(repositories.filter((repository) => level === "Todos" || repository.level === level).length).padStart(2, "0");
-        const caption = document.createElement("p");
-        caption.className = "mt-2 text-xs text-slate-400 sm:text-sm";
-        caption.textContent = label;
-        stat.append(count, caption);
-        document.querySelector("#stats").append(stat);
-      }
-      document.querySelector("#filters").addEventListener("click", (event) => {
-        const button = event.target.closest("button[data-level]");
-        if (!button) return;
-        selectedLevel = button.dataset.level;
-        render();
-      });
-      search.addEventListener("input", render);
-      sort.addEventListener("change", render);
-      document.querySelector("#reset").addEventListener("click", () => {
-        selectedLevel = "Todos";
-        search.value = "";
-        sort.value = "default";
-        render();
-        search.focus();
-      });
-      render();
-    </script>
-  </body>
+donde
+    {id_participante} referencia TECNICOS
+    {id_especialidad} referencia ESPECIALIDADES</code></pre>
+        </article>
+        <article class="min-w-0 overflow-hidden rounded-xl border border-[#dce1d8] bg-[#fffefa]">
+          <h3 class="border-b border-[#dce1d8] bg-[#f3f6f8] px-4 py-3 font-mono text-[0.95rem] font-bold">8. ENSAYOS</h3>
+          <pre class="m-0 overflow-x-auto bg-[#030719] p-4 font-mono text-[0.9rem] leading-[1.65] whitespace-pre-wrap break-words text-[#f4f6ff]"><code>ENSAYOS (
+    id_ensayo PK,
+    fecha,
+    hora,
+    tipo,
+    lugar,
+    observaciones
+)</code></pre>
+        </article>
+        <article class="min-w-0 overflow-hidden rounded-xl border border-[#dce1d8] bg-[#fffefa]">
+          <h3 class="border-b border-[#dce1d8] bg-[#f3f6f8] px-4 py-3 font-mono text-[0.95rem] font-bold">9. ESCENAS</h3>
+          <pre class="m-0 overflow-x-auto bg-[#030719] p-4 font-mono text-[0.9rem] leading-[1.65] whitespace-pre-wrap break-words text-[#f4f6ff]"><code>ESCENAS (
+    id_escena PK,
+    numero_escena UNIQUE,
+    titulo,
+    descripcion,
+    duracion_estimada
+)</code></pre>
+        </article>
+        <article class="min-w-0 overflow-hidden rounded-xl border border-[#dce1d8] bg-[#fffefa]">
+          <h3 class="border-b border-[#dce1d8] bg-[#f3f6f8] px-4 py-3 font-mono text-[0.95rem] font-bold">10. ENSAYOS_ESCENAS</h3>
+          <pre class="m-0 overflow-x-auto bg-[#030719] p-4 font-mono text-[0.9rem] leading-[1.65] whitespace-pre-wrap break-words text-[#f4f6ff]"><code>ENSAYOS_ESCENAS (
+    id_ensayo PK+, FK,
+    id_escena PK+, FK
+)
+
+donde
+    {id_ensayo} referencia ENSAYOS
+    {id_escena} referencia ESCENAS</code></pre>
+        </article>
+        <article class="min-w-0 overflow-hidden rounded-xl border border-[#dce1d8] bg-[#fffefa]">
+          <h3 class="border-b border-[#dce1d8] bg-[#f3f6f8] px-4 py-3 font-mono text-[0.95rem] font-bold">11. CONVOCATORIAS_ACTORES</h3>
+          <pre class="m-0 overflow-x-auto bg-[#030719] p-4 font-mono text-[0.9rem] leading-[1.65] whitespace-pre-wrap break-words text-[#f4f6ff]"><code>CONVOCATORIAS_ACTORES (
+    id_ensayo PK+, FK,
+    id_participante PK+, FK+,
+    id_personaje PK+, FK+,
+    observaciones,
+    estado_asistencia VARCHAR(20) NOT NULL DEFAULT 'prevista',
+    id_sustituto INT NULL (FK+)
+)
+
+ donde
+    {id_ensayo} referencia ENSAYOS
+    {id_participante, id_personaje}
+        referencia ACTORES_PERSONAJES
+    {id_sustituto, id_personaje}
+        referencia ACTORES_PERSONAJES
+
+restricciones de negocio
+    estado_asistencia: prevista, asistio o ausente
+    si id_sustituto no es NULL, estado_asistencia = ausente
+    si id_sustituto no es NULL, id_sustituto <> id_participante
+    id_sustituto es opcional: NULL o un único actor por convocatoria (0..1)
+    se referencian identificadores; no se duplican nombres ni datos personales</code></pre>
+        </article>
+        <article class="min-w-0 overflow-hidden rounded-xl border border-[#dce1d8] bg-[#fffefa]">
+          <h3 class="border-b border-[#dce1d8] bg-[#f3f6f8] px-4 py-3 font-mono text-[0.95rem] font-bold">12. CONVOCATORIAS_TECNICOS</h3>
+          <pre class="m-0 overflow-x-auto bg-[#030719] p-4 font-mono text-[0.9rem] leading-[1.65] whitespace-pre-wrap break-words text-[#f4f6ff]"><code>CONVOCATORIAS_TECNICOS (
+    id_ensayo PK+, FK,
+    id_participante PK+, FK+,
+    id_especialidad PK+, FK+,
+    observaciones
+)
+
+donde
+    {id_ensayo} referencia ENSAYOS
+    {id_participante, id_especialidad}
+        referencia TECNICOS_ESPECIALIDADES</code></pre>
+        </article>
+        <article class="min-w-0 overflow-hidden rounded-xl border border-[#dce1d8] bg-[#fffefa]">
+          <h3 class="border-b border-[#dce1d8] bg-[#f3f6f8] px-4 py-3 font-mono text-[0.95rem] font-bold">13. REPRESENTACIONES</h3>
+          <pre class="m-0 overflow-x-auto bg-[#030719] p-4 font-mono text-[0.9rem] leading-[1.65] whitespace-pre-wrap break-words text-[#f4f6ff]"><code>REPRESENTACIONES (
+    id_representacion PK,
+    fecha,
+    hora,
+    lugar,
+    observaciones
+)</code></pre>
+        </article>
+        <article class="min-w-0 overflow-hidden rounded-xl border border-[#dce1d8] bg-[#fffefa]">
+          <h3 class="border-b border-[#dce1d8] bg-[#f3f6f8] px-4 py-3 font-mono text-[0.95rem] font-bold">14. REPARTOS</h3>
+          <pre class="m-0 overflow-x-auto bg-[#030719] p-4 font-mono text-[0.9rem] leading-[1.65] whitespace-pre-wrap break-words text-[#f4f6ff]"><code>REPARTOS (
+    id_representacion PK+, FK,
+    id_personaje PK+, FK+,
+    id_participante FK+,
+    observaciones
+)
+
+donde
+    {id_representacion} referencia REPRESENTACIONES
+    {id_participante, id_personaje}
+        referencia ACTORES_PERSONAJES</code></pre>
+        </article>
+        <article class="min-w-0 overflow-hidden rounded-xl border border-[#dce1d8] bg-[#fffefa]">
+          <h3 class="border-b border-[#dce1d8] bg-[#f3f6f8] px-4 py-3 font-mono text-[0.95rem] font-bold">15. REPARTOS_TECNICOS</h3>
+          <pre class="m-0 overflow-x-auto bg-[#030719] p-4 font-mono text-[0.9rem] leading-[1.65] whitespace-pre-wrap break-words text-[#f4f6ff]"><code>REPARTOS_TECNICOS (
+    id_representacion PK+, FK,
+    id_participante PK+, FK+,
+    id_especialidad PK+, FK+,
+    observaciones,
+    UNIQUE (id_representacion, id_participante)
+)
+
+donde
+    {id_representacion} referencia REPRESENTACIONES
+    {id_participante, id_especialidad}
+        referencia TECNICOS_ESPECIALIDADES</code></pre>
+        </article>
+      </div>
+      <p class="mb-4 mt-4 max-w-[760px] text-[#64716c]"><strong>Otras reglas del modelo:</strong> los ensayos son ordinarios o generales y no tienen una FK a representaciones. El número de escena es único en esta obra y la duración es estimada en minutos. ENSAYOS_ESCENAS registra una fila por escena programada en cada ensayo, sin repeticiones. El tipo de personaje distingue principales y secundarios; su nombre no es único.</p>
+      <p class="mb-4 max-w-[760px] text-[#64716c]"><strong>Capacidades:</strong> las FK compuestas validan cada pareja completa; dos FK independientes al actor y al personaje, o al técnico y a la especialidad, no garantizarían que esa capacidad esté registrada.</p>
+      <p class="mb-4 max-w-[760px] text-[#64716c]"><strong>Especialización total y solapada — validación pendiente en MySQL:</strong> cada participante debe pertenecer a ACTORES_ACTRICES, a TECNICOS o a ambos. Las PK y FK permiten el solapamiento, pero no garantizan la pertenencia a al menos un subtipo. Tampoco basta un CHECK de la fila de PARTICIPANTES para comprobar ambas tablas. La implementación deberá coordinar las altas, cambios y bajas de participantes y subtipos mediante operaciones controladas dentro de una transacción, evitando dejar participantes sin subtipo al finalizar y protegiendo las vías de modificación directa.</p>
+      <p class="mb-4 max-w-[760px] text-[#64716c]">Convocar inicialmente a todos los técnicos es una regla de planificación adicional; su especialidad debe indicarse explícitamente.</p>
+    </details>
+
+    <details class="group mb-3 min-w-0 rounded-[14px] border border-[#dce1d8] bg-[#fffefa] shadow-[0_16px_40px_rgb(34_49_41/0.08)] [&>:not(summary)]:mx-4 [&>:last-child]:mb-4 [&>summary+*]:mt-5 md:[&>:not(summary)]:mx-6 md:[&>:last-child]:mb-6">
+      <summary class="flex cursor-pointer list-none items-start gap-2.5 rounded-xl p-4 focus-visible:outline-3 focus-visible:outline-offset-3 focus-visible:outline-[#bc8540] md:items-baseline md:gap-3.5 md:px-[22px] md:py-[18px] [&::-webkit-details-marker]:hidden">
+        <span aria-hidden="true" class="text-[1.3rem] leading-none font-bold text-[#bc8540] group-open:hidden">+</span>
+        <span aria-hidden="true" class="hidden text-[1.3rem] leading-none font-bold text-[#bc8540] group-open:inline">−</span>
+        <span class="min-w-0 text-xl leading-[1.3] font-bold text-[#202c29]" role="heading" aria-level="2">Normalización</span>
+        <span class="hidden text-[0.92rem] text-[#64716c] md:block">Primera, segunda y tercera formas normales.</span>
+      </summary>
+      <p class="mb-4 max-w-[760px] text-[#64716c]">La separación de entidades reduce duplicidad y ayuda a mantener la coherencia de los datos.</p>
+      <div class="grid grid-cols-1 gap-4 lg:grid-cols-3">
+        <article class="border-t-[3px] border-[#bc8540] bg-[#fffefa] p-[18px]">
+          <h3 class="mb-2 text-[1.12rem] font-bold">Primera forma normal (1FN)</h3>
+          <p class="mb-4 last:mb-0">Cada atributo guarda un valor individual. Los estados de asistencia son valores simples y cada convocatoria almacena como máximo un id_sustituto (NULL o un identificador), sin listas de sustitutos en una celda.</p>
+        </article>
+        <article class="border-t-[3px] border-[#bc8540] bg-[#fffefa] p-[18px]">
+          <h3 class="mb-2 text-[1.12rem] font-bold">Segunda forma normal (2FN)</h3>
+          <p class="mb-4 last:mb-0">Los atributos dependen de la clave completa de su tabla. En CONVOCATORIAS_ACTORES, el estado de asistencia y el sustituto dependen de la convocatoria identificada por la clave compuesta completa; no de una parte de ella.</p>
+        </article>
+        <article class="border-t-[3px] border-[#bc8540] bg-[#fffefa] p-[18px]">
+          <h3 class="mb-2 text-[1.12rem] font-bold">Tercera forma normal (3FN)</h3>
+          <p class="mb-4 last:mb-0">Los datos personales solo se guardan en PARTICIPANTES; id_sustituto referencia al actor autorizado sin repetir su nombre ni sus datos personales. Los datos de personajes, especialidades, escenas y sesiones permanecen en sus propias tablas, sin dependencias transitivas de atributos no clave respecto de las claves.</p>
+        </article>
+      </div>
+    </details>
+
+    <details class="group mb-3 min-w-0 rounded-[14px] border border-[#dce1d8] bg-[#fffefa] shadow-[0_16px_40px_rgb(34_49_41/0.08)] [&>:not(summary)]:mx-4 [&>:last-child]:mb-4 [&>summary+*]:mt-5 md:[&>:not(summary)]:mx-6 md:[&>:last-child]:mb-6">
+      <summary class="flex cursor-pointer list-none items-start gap-2.5 rounded-xl p-4 focus-visible:outline-3 focus-visible:outline-offset-3 focus-visible:outline-[#bc8540] md:items-baseline md:gap-3.5 md:px-[22px] md:py-[18px] [&::-webkit-details-marker]:hidden">
+        <span aria-hidden="true" class="text-[1.3rem] leading-none font-bold text-[#bc8540] group-open:hidden">+</span>
+        <span aria-hidden="true" class="hidden text-[1.3rem] leading-none font-bold text-[#bc8540] group-open:inline">−</span>
+        <span class="min-w-0 text-xl leading-[1.3] font-bold text-[#202c29]" role="heading" aria-level="2">Buenas prácticas</span>
+        <span class="hidden text-[0.92rem] text-[#64716c] md:block">Criterios aplicados al diseño del modelo.</span>
+      </summary>
+      <p class="mb-4 max-w-[760px] text-[#64716c]">Estos criterios complementan la normalización y ayudan a mantener un diseño claro, coherente y fácil de ampliar.</p>
+      <div class="rounded-[14px] border border-[#dce1d8] border-l-4 border-l-[#bc8540] bg-[#fffefa] px-5 py-5 text-[#64716c] shadow-[0_16px_40px_rgb(34_49_41/0.08)] [&_strong]:text-[#202c29] md:px-6">
+        <p class="mb-4 last:mb-0"><strong>Nombres consistentes:</strong> las tablas se nombran en plural y los atributos usan nombres descriptivos, sin espacios ni tildes y con guiones bajos, como <code class="rounded bg-[#edf0e9] px-[5px] py-0.5 font-mono text-[0.9em] text-[#284c3c]">id_participante</code> e <code class="rounded bg-[#edf0e9] px-[5px] py-0.5 font-mono text-[0.9em] text-[#284c3c]">id_representacion</code>.</p>
+        <p class="mb-4 last:mb-0"><strong>Identificadores estables:</strong> cada entidad principal tiene una clave primaria propia. Los nombres de las personas no se utilizan como identificadores, porque pueden repetirse o cambiar.</p>
+        <p class="mb-4 last:mb-0"><strong>Una responsabilidad por tabla:</strong> las capacidades indican qué puede hacer cada participante; las convocatorias indican qué debe preparar en un ensayo; los repartos indican qué hará en una representación.</p>
+        <p class="mb-4 last:mb-0"><strong>Relaciones explícitas:</strong> las FK compuestas validan las parejas actor–personaje y técnico–especialidad. ENSAYOS_ESCENAS conecta directamente con ambas entidades, sin un segundo camino que duplique la relación.</p>
+        <p class="mb-4 last:mb-0"><strong>Reglas de negocio claras:</strong> cada personaje tiene un intérprete por representación y un actor puede interpretar varios personajes en la misma función. Un técnico puede tener varias especialidades como capacidades, pero solo desempeña una por representación; esa misma especialidad puede estar asignada a varios técnicos. Una persona puede actuar y ejercer una función técnica en la misma representación. No se guarda tipo_participante: se obtiene de la pertenencia a los subtipos.</p>
+        <p class="mb-0"><strong>Documentación coherente:</strong> mantener los mismos nombres, atributos y relaciones en el Diagrama Entidad-Relación y en el Modelo Relacional, actualizando ambos cuando crezca el proyecto.</p>
+      </div>
+    </details>
+
+    <details class="group mb-3 min-w-0 rounded-[14px] border border-[#dce1d8] bg-[#fffefa] shadow-[0_16px_40px_rgb(34_49_41/0.08)] [&>:not(summary)]:mx-4 [&>:last-child]:mb-4 [&>summary+*]:mt-5 md:[&>:not(summary)]:mx-6 md:[&>:last-child]:mb-6">
+      <summary class="flex cursor-pointer list-none items-start gap-2.5 rounded-xl p-4 focus-visible:outline-3 focus-visible:outline-offset-3 focus-visible:outline-[#bc8540] md:items-baseline md:gap-3.5 md:px-[22px] md:py-[18px] [&::-webkit-details-marker]:hidden">
+        <span aria-hidden="true" class="text-[1.3rem] leading-none font-bold text-[#bc8540] group-open:hidden">+</span>
+        <span aria-hidden="true" class="hidden text-[1.3rem] leading-none font-bold text-[#bc8540] group-open:inline">−</span>
+        <span class="min-w-0 text-xl leading-[1.3] font-bold text-[#202c29]" role="heading" aria-level="2">Alcance de esta entrega</span>
+        <span class="hidden text-[0.92rem] text-[#64716c] md:block">Objetivo y límites de esta fase inicial.</span>
+      </summary>
+      <p class="mb-4 max-w-[760px] text-[#64716c]">Esta entrega documenta el diseño de una estructura normalizada de tablas para gestionar participantes, capacidades artísticas y técnicas, ensayos, escenas, convocatorias, representaciones y repartos de Els Pastorets 2026. Incluye el Diagrama Entidad-Relación, el Modelo Relacional, la justificación de las tres primeras formas normales y las buenas prácticas de diseño.</p>
+      <p class="mb-4 max-w-[760px] text-[#64716c]">El alcance es el diseño de la base de datos. La implementación en MySQL, la carga de datos y el resto de requisitos del proyecto se abordarán en entregas posteriores.</p>
+    </details>
+  </main>
+
+  <footer class="border-t border-[#dce1d8] px-5 py-[22px] text-center text-[0.9rem] text-[#64716c]">Diseño inicial de base de datos · Els Pastorets 2026</footer>
+</body>
 </html>
