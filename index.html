@@ -150,6 +150,14 @@
           description: "Ejercicios de consultas SQL con las bases de datos Nómina 2 y Jardín.",
           tags: ["MySQL", "SQL", "SELECT"],
           url: "https://fontanillus.github.io/consultas_mysql/"
+        },
+        {
+          title: "JOIN MySQL",
+          level: "Intermedio",
+          description: "Ejercicios prácticos de consultas SQL con JOIN, relaciones entre tablas y combinación de datos.",
+          tags: ["MySQL", "SQL", "JOIN", "Disponible"],
+          url: "https://fontanillus.github.io/join_mysql/",
+          linkText: "Ver ejercicios"
         }
       ];
       const levelStyles = {
@@ -180,6 +188,10 @@
           field("level").classList.add(...levelStyles[repository.level].split(" "));
           field("link").href = repository.url;
           field("link").setAttribute("aria-label", `Abrir ${repository.title} (nueva pestaña)`);
+          if (repository.linkText) {
+            field("link").textContent = repository.linkText;
+            field("link").setAttribute("aria-label", `${repository.linkText} de ${repository.title} (nueva pestaña)`);
+          }
           for (const tag of repository.tags) {
             const badge = document.createElement("span");
             badge.className = "rounded-md bg-slate-800 px-2 py-1 font-mono text-[11px] text-slate-400";
